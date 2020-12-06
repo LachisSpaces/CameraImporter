@@ -1,0 +1,185 @@
+﻿<Window x:Class="CameraImporter.MainWindow"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    Title="Importer" Height="790" Width="700">
+   <Grid>
+      <Grid.RowDefinitions >
+         <RowDefinition Height="Auto"/>
+         <RowDefinition Height="Auto"/>
+         <RowDefinition Height="Auto"/>
+         <RowDefinition Height="Auto"/>
+         <RowDefinition Height="Auto"/>
+         <RowDefinition Height="Auto"/>
+         <RowDefinition Height="*"/>
+      </Grid.RowDefinitions>
+      <Expander Grid.Row="0" x:Name="expSDCard" Background="DarkGray" IsExpanded="True" Margin="5,5,5,0">
+         <Expander.Header>SD Card</Expander.Header>
+         <Grid Background="LightGray">
+            <Grid.RowDefinitions>
+               <RowDefinition Height="30"/>
+               <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+               <ColumnDefinition Width="34"/>
+               <ColumnDefinition Width="*"/>
+               <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+            <Label Grid.Row="0" Grid.Column="0" Content="Path" VerticalAlignment="Center"/>
+            <TextBox x:Name="txtSDCardPath" Grid.Row="0" Grid.Column="1" VerticalAlignment="Center"/>
+            <Button x:Name="cmdSDCardPath_Select" Click="cmdSDCardPath_Select_Click" Grid.Row="0" Grid.Column="2" Content="..." Width="22" Margin="4"/>
+            <Label Grid.Row="1" Grid.Column="0" Content="Files"/>
+            <ListView x:Name="lvSDCard" Grid.Row="1" Grid.Column="1" Margin="0,0,0,3" MaxHeight="300">
+               <ListView.View>
+                  <GridView AllowsColumnReorder="true">
+                     <GridViewColumn DisplayMemberBinding="{Binding Path=Name}" Width="280">
+                        <GridViewColumnHeader Content="File name" Click="SDCardNameHeader_Click"/>
+                     </GridViewColumn>
+                     <GridViewColumn DisplayMemberBinding="{Binding Path=Extension}" Width="50">
+                        <GridViewColumnHeader Content="Ext" Click="SDCardExtensionHeader_Click"/>
+                     </GridViewColumn>
+                     <GridViewColumn Width="120">
+                        <GridViewColumnHeader Content="Change date" Click="SDCardLastWriteTimeHeader_Click"/>
+                        <GridViewColumn.CellTemplate>
+                           <DataTemplate>
+                              <TextBlock>
+                            <TextBlock.Text>
+                             <Binding Path="LastWriteTime" StringFormat="{}{0:dd.MM.yyyy HH:mm:ss}"/>
+                             </TextBlock.Text>
+                              </TextBlock>
+                           </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                     </GridViewColumn>
+                     <GridViewColumn Width="120">
+                        <GridViewColumnHeader Content="Creation date" Click="SDCardCreationTimeHeader_Click"/>
+                        <GridViewColumn.CellTemplate>
+                           <DataTemplate>
+                              <TextBlock>
+                            <TextBlock.Text>
+                             <Binding Path="CreationTime" StringFormat="{}{0:dd.MM.yyyy HH:mm:ss}"/>
+                             </TextBlock.Text>
+                              </TextBlock>
+                           </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                     </GridViewColumn>
+                  </GridView>
+               </ListView.View>
+            </ListView>
+         </Grid>
+      </Expander>
+      <Expander Grid.Row="1" x:Name="expBackup" Background="DarkGray" IsExpanded="True" Margin="5,5,5,0">
+         <Expander.Header>
+            <Grid Width="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Expander}}, Path=ActualWidth}">
+               <Label    Content="Backup"/>
+               <CheckBox x:Name="ckbBackup_Save" HorizontalAlignment="Right" VerticalAlignment="Center" Content="Make backup" Width="150"/>
+            </Grid>
+         </Expander.Header>
+         <Grid Background="LightGray" >
+            <Grid.RowDefinitions>
+               <RowDefinition Height="30"/>
+               <RowDefinition Height="27"/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+               <ColumnDefinition Width="34"/>
+               <ColumnDefinition Width="Auto"/>
+               <ColumnDefinition Width="*"/>
+               <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+            <Label Grid.Row="0" Grid.Column="0" Content="Path" VerticalAlignment="Center"/>
+            <TextBox x:Name="txtBackupPath" Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="2" VerticalAlignment="Center"/>
+            <Button x:Name="cmdBackupPath_Select" Click="cmdBackupPath_Select_Click" Grid.Row="0" Grid.Column="3" Content="..." Width="22" Margin="4"/>
+            <CheckBox x:Name="ckbBackupNewFolder" Grid.Row="1" Grid.Column="1" Content="Make new folder:" VerticalAlignment="Center"/>
+            <TextBox x:Name="txtBackupNewFolder" Grid.Row="1" Grid.Column="2" Margin="10,0,0,0" VerticalAlignment="Center" TextChanged="txtBackupNewFolder_TextChanged"/>
+         </Grid>
+      </Expander>
+      <Expander Grid.Row="2" x:Name="expPhotos2D" Background="DarkGray" IsExpanded="True" Margin="5,5,5,0">
+         <Expander.Header>
+            <Grid Width="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Expander}}, Path=ActualWidth}">
+               <Label    Content="2D Photos"/>
+               <CheckBox x:Name="ckbPhotos2D_Save" HorizontalAlignment="Right" VerticalAlignment="Center" Content="Import 2D photos" Width="150"/>
+            </Grid>
+         </Expander.Header>
+         <Grid Background="LightGray" >
+            <Grid.RowDefinitions>
+               <RowDefinition Height="30"/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+               <ColumnDefinition Width="34"/>
+               <ColumnDefinition Width="*"/>
+               <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+            <Label Grid.Row="0" Grid.Column="0" Content="Path" VerticalAlignment="Center"/>
+            <TextBox x:Name="txtPhotos2DPath" Grid.Row="0" Grid.Column="1" VerticalAlignment="Center"/>
+            <Button x:Name="cmdPhotos2DPath_Select" Click="cmdPhotos2DPath_Select_Click"  Grid.Row="0" Grid.Column="2" Content="..." Width="22" Margin="4"/>
+         </Grid>
+      </Expander>
+      <Expander Grid.Row="3" x:Name="expPhotos3D" Background="DarkGray" IsExpanded="True" Margin="5,5,5,0">
+         <Expander.Header>
+            <Grid Width="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Expander}}, Path=ActualWidth}">
+               <Label    Content="3D Photos"/>
+               <CheckBox x:Name="ckbPhotos3D_Save" HorizontalAlignment="Right" VerticalAlignment="Center" Content="Import 3D photos" Width="150"/>
+            </Grid>
+         </Expander.Header>
+         <Grid Background="LightGray" >
+            <Grid.RowDefinitions>
+               <RowDefinition Height="30"/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+               <ColumnDefinition Width="34"/>
+               <ColumnDefinition Width="*"/>
+               <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+            <Label Grid.Row="0" Grid.Column="0" Content="Path" VerticalAlignment="Center"/>
+            <TextBox x:Name="txtPhotos3DPath" Grid.Row="0" Grid.Column="1" VerticalAlignment="Center"/>
+            <Button x:Name="cmdPhotos3DPath_Select" Click="cmdPhotos3DPath_Select_Click" Grid.Row="0" Grid.Column="2" Content="..." Width="22" Margin="4"/>
+         </Grid>
+      </Expander>
+      <Expander Grid.Row="4" x:Name="expMovies" Background="DarkGray" IsExpanded="True" Margin="5,5,5,0">
+         <Expander.Header>
+            <Grid Width="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Expander}}, Path=ActualWidth}">
+               <Label    Content="Movies"/>
+               <CheckBox x:Name="ckbMovies_Save" HorizontalAlignment="Right" VerticalAlignment="Center" Content="Import movies" Width="150"/>
+            </Grid>
+         </Expander.Header>
+         <Grid Background="LightGray" >
+            <Grid.RowDefinitions>
+               <RowDefinition Height="30"/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+               <ColumnDefinition Width="34"/>
+               <ColumnDefinition Width="*"/>
+               <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+            <Label Grid.Row="0" Grid.Column="0" Content="Path" VerticalAlignment="Center"/>
+            <TextBox x:Name="txtMoviesPath" Grid.Row="0" Grid.Column="1" VerticalAlignment="Center"/>
+            <Button x:Name="cmdMoviesPath_Select" Click="cmdMoviesPath_Select_Click"  Grid.Row="0" Grid.Column="2" Content="..." Width="22" Margin="4"/>
+         </Grid>
+      </Expander>
+      <Expander Grid.Row="5" x:Name="expFileName" Background="DarkGray" IsExpanded="True" Margin="5,5,5,0">
+         <Expander.Header>File names</Expander.Header>
+         <Grid Background="LightGray" >
+            <Grid.RowDefinitions>
+               <RowDefinition Height="30"/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+               <ColumnDefinition Width="40"/>
+               <ColumnDefinition Width="Auto"/>
+               <ColumnDefinition Width="Auto"/>
+               <ColumnDefinition Width="Auto"/>
+               <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <Label       Grid.Column="0" VerticalAlignment="Center" Content="Date"/>
+            <RadioButton Grid.Column="1" VerticalAlignment="Center" x:Name="rbFileNameLastWriteTime" GroupName="FileNameDate" Content="Change date" IsChecked="True"/>
+            <RadioButton Grid.Column="2" VerticalAlignment="Center" x:Name="rbFileNameCreationTime"  GroupName="FileNameDate" Margin="5,0,0,0" Content="Creation date"/>
+            <CheckBox    Grid.Column="3" VerticalAlignment="Center" x:Name="ckbFileNameDescription" Margin="40,0,0,0" Content="Add description:"/>
+            <TextBox     Grid.Column="4" VerticalAlignment="Center" x:Name="txtFileNameDescription" Margin="10,0,4,0" TextChanged="txtFileNameDescription_TextChanged"/>
+         </Grid>
+      </Expander>
+      <Grid Grid.Row="6" Height="30" VerticalAlignment="Bottom" Margin="5">
+         <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="Auto"/>
+         </Grid.ColumnDefinitions>
+         <Button x:Name="cmdTransferData" Grid.Column="1" Click="cmdTransferData_Click" Content="Transfer data" Width="100" Margin="5,0,0,0"/>
+      </Grid>
+   </Grid>
+</Window>
